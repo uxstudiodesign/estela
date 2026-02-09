@@ -16,6 +16,7 @@ const ParcelDetailPage = lazy(() => import('@/pages/admin/ParcelDetailPage').the
 const BoatsPage = lazy(() => import('@/pages/admin/BoatsPage').then((m) => ({ default: m.BoatsPage })))
 const CouriersPage = lazy(() => import('@/pages/admin/CouriersPage').then((m) => ({ default: m.CouriersPage })))
 const ComingSoonPage = lazy(() => import('@/pages/ComingSoonPage').then((m) => ({ default: m.ComingSoonPage })))
+const FeatureComingSoonPage = lazy(() => import('@/pages/admin/FeatureComingSoonPage').then((m) => ({ default: m.FeatureComingSoonPage })))
 
 function LazyPage({ children }: { readonly children: React.ReactNode }) {
   return (
@@ -56,6 +57,7 @@ export function AppRouter() {
             <Route path="/admin/parcels/:id" element={<LazyPage><ParcelDetailPage /></LazyPage>} />
             <Route path="/admin/boats" element={<LazyPage><BoatsPage /></LazyPage>} />
             <Route path="/admin/couriers" element={<LazyPage><CouriersPage /></LazyPage>} />
+            <Route path="/admin/features/:featureId" element={<LazyPage><FeatureComingSoonPage /></LazyPage>} />
           </Route>
         </Route>
       </Route>

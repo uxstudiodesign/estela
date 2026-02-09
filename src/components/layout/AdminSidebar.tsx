@@ -31,15 +31,13 @@ const navItems = [
       </svg>
     ),
   },
-  {
-    to: '/coming-soon',
-    label: 'Coming Soon',
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-  },
+]
+
+const comingSoonItems = [
+  { to: '/admin/features/notifications', label: 'Notifications' },
+  { to: '/admin/features/integrations', label: 'Integrations' },
+  { to: '/admin/features/analytics', label: 'Analytics' },
+  { to: '/admin/features/billing', label: 'Billing' },
 ]
 
 export function AdminSidebar() {
@@ -84,7 +82,7 @@ export function AdminSidebar() {
             <p className="text-sm text-white/60 mt-1">Admin Dashboard</p>
           </div>
 
-          <nav className="flex-1 p-3 space-y-1">
+          <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -100,6 +98,25 @@ export function AdminSidebar() {
                 {item.label}
               </NavLink>
             ))}
+
+            {/* Coming Soon section */}
+            <div className="pt-3 mt-3 border-t border-navy-light">
+              <p className="text-[10px] uppercase tracking-wider text-white/40 px-3 mb-2">Coming Soon</p>
+              {comingSoonItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setIsMobileOpen(false)}
+                  className={({ isActive }) => `
+                    flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors
+                    ${isActive ? 'bg-white/15 text-white' : 'text-white/50 hover:bg-white/10 hover:text-white/70'}
+                  `.trim()}
+                >
+                  <span className="w-5 h-5 flex items-center justify-center text-xs">&#9203;</span>
+                  {item.label}
+                </NavLink>
+              ))}
+            </div>
           </nav>
 
           <div className="p-3 border-t border-navy-light">
