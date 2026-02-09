@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from 'react'
-import { supabase } from '@/config/supabase'
+import { supabase, isSupabaseConfigured } from '@/config/supabase'
 import type { AuthState, AuthContextValue } from '@/types/auth'
 import type { Courier } from '@/types/database'
 import type { User, Session } from '@supabase/supabase-js'
@@ -46,6 +46,11 @@ export function AuthProvider({ children }: { readonly children: ReactNode }) {
   }, [])
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setState({ user: null, session: null, profile: null, isLoading: false })
+      return
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       handleAuthChange(session)
     })
