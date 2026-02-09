@@ -1,4 +1,4 @@
-export const APP_NAME = 'ESTELA POD'
+export const APP_NAME = 'Estela OS'
 
 export const MAX_PHOTO_SIZE_BYTES = 1_048_576 // 1MB
 export const MAX_PHOTO_DIMENSION = 1920

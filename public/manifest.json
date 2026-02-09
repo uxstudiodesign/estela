@@ -1,7 +1,7 @@
 {
-  "name": "ESTELA POD",
-  "short_name": "ESTELA",
-  "description": "Proof of Delivery for Estela Shipping S.A.",
+  "name": "Estela OS",
+  "short_name": "Estela",
+  "description": "Operating system for Estela Shipping S.A.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

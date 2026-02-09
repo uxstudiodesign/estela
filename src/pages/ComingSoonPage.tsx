@@ -83,7 +83,7 @@ export function ComingSoonPage() {
         </button>
         <div>
           <h1 className="text-2xl font-bold text-text">Roadmap</h1>
-          <p className="text-sm text-text-light">What's coming next for ESTELA POD</p>
+          <p className="text-sm text-text-light">What's coming next for Estela OS</p>
         </div>
       </div>
 
