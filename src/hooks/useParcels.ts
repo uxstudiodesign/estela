@@ -227,15 +227,10 @@ export function useParcels() {
   }, [])
 
   const getParcelStats = useCallback(async () => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const todayISO = today.toISOString()
-
-    const [pickupsToday, inTransit, deliveredToday] = await Promise.all([
+    const [totalParcels, inTransit, delivered] = await Promise.all([
       supabase
         .from('parcels')
-        .select('id', { count: 'exact', head: true })
-        .gte('created_at', todayISO),
+        .select('id', { count: 'exact', head: true }),
       supabase
         .from('parcels')
         .select('id', { count: 'exact', head: true })
@@ -243,14 +238,13 @@ export function useParcels() {
       supabase
         .from('parcels')
         .select('id', { count: 'exact', head: true })
-        .eq('status', 'delivered')
-        .gte('delivered_at', todayISO),
+        .eq('status', 'delivered'),
     ])
 
     return {
-      pickupsToday: pickupsToday.count ?? 0,
+      totalParcels: totalParcels.count ?? 0,
       inTransit: inTransit.count ?? 0,
-      deliveredToday: deliveredToday.count ?? 0,
+      delivered: delivered.count ?? 0,
     }
   }, [])
 
