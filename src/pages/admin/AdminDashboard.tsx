@@ -17,7 +17,7 @@ export function AdminDashboard() {
   const [stats, setStats] = useState({ pickupsToday: 0, inTransit: 0, deliveredToday: 0 })
   const [filters, setFilters] = useState<ParcelFilters>({
     status: 'all',
-    dateRange: 'today',
+    dateRange: 'all',
     search: '',
   })
 
