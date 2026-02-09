@@ -14,7 +14,7 @@ export function AdminDashboard() {
   const { parcels, isLoading, fetchAllParcels, getParcelStats } = useParcels()
   const { boats, fetchBoats } = useBoats()
 
-  const [stats, setStats] = useState({ pickupsToday: 0, inTransit: 0, deliveredToday: 0 })
+  const [stats, setStats] = useState({ totalParcels: 0, inTransit: 0, delivered: 0 })
   const [filters, setFilters] = useState<ParcelFilters>({
     status: 'all',
     dateRange: 'all',
@@ -44,9 +44,9 @@ export function AdminDashboard() {
   }
 
   const statCards = [
-    { label: "Today's Pickups", value: stats.pickupsToday, color: 'bg-navy/10 text-navy' },
+    { label: 'Total Parcels', value: stats.totalParcels, color: 'bg-navy/10 text-navy' },
     { label: 'In Transit', value: stats.inTransit, color: 'bg-warning/10 text-warning' },
-    { label: 'Delivered Today', value: stats.deliveredToday, color: 'bg-success/10 text-success' },
+    { label: 'Delivered', value: stats.delivered, color: 'bg-success/10 text-success' },
   ]
 
   return (
