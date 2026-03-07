@@ -18,6 +18,12 @@ const CouriersPage = lazy(() => import('@/pages/admin/CouriersPage').then((m) =>
 const ComingSoonPage = lazy(() => import('@/pages/ComingSoonPage').then((m) => ({ default: m.ComingSoonPage })))
 const FeatureComingSoonPage = lazy(() => import('@/pages/admin/FeatureComingSoonPage').then((m) => ({ default: m.FeatureComingSoonPage })))
 
+// Event system pages
+const RegisterPage = lazy(() => import('@/pages/events/RegisterPage').then((m) => ({ default: m.RegisterPage })))
+const ConfirmationPage = lazy(() => import('@/pages/events/ConfirmationPage').then((m) => ({ default: m.ConfirmationPage })))
+const CheckinPage = lazy(() => import('@/pages/events/CheckinPage').then((m) => ({ default: m.CheckinPage })))
+const EventAdminPage = lazy(() => import('@/pages/events/EventAdminPage').then((m) => ({ default: m.EventAdminPage })))
+
 function LazyPage({ children }: { readonly children: React.ReactNode }) {
   return (
     <Suspense fallback={<LoadingSpinner className="min-h-[60vh]" />}>
@@ -61,6 +67,12 @@ export function AppRouter() {
           </Route>
         </Route>
       </Route>
+
+      {/* Event system (public) */}
+      <Route path="/events" element={<LazyPage><RegisterPage /></LazyPage>} />
+      <Route path="/events/confirmation" element={<LazyPage><ConfirmationPage /></LazyPage>} />
+      <Route path="/events/checkin" element={<LazyPage><CheckinPage /></LazyPage>} />
+      <Route path="/events/admin" element={<LazyPage><EventAdminPage /></LazyPage>} />
 
       <Route path="/" element={<RootRedirect />} />
       <Route path="*" element={<Navigate to="/" replace />} />

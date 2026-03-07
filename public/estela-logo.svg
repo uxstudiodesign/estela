@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 100" fill="none">
+  <!-- Estela Superyacht Agency - Full Logo -->
+  <!-- Sail symbol -->
+  <g transform="translate(0,2) scale(0.8)">
+    <polygon points="20,115 42,10 48,10 32,115" fill="#7B1A2D"/>
+    <polygon points="32,115 50,25 57,18 46,115" fill="#7B1A2D"/>
+    <polygon points="46,115 59,40 67,30 60,115" fill="#7B1A2D"/>
+    <polygon points="60,115 68,56 77,44 74,115" fill="#7B1A2D"/>
+    <polygon points="74,115 78,72 88,58 88,115" fill="#7B1A2D"/>
+  </g>
+  <!-- ESTELA text -->
+  <text x="95" y="58" font-family="'Georgia', 'Times New Roman', serif" font-size="56" font-weight="400" fill="#4A4A4A" letter-spacing="6">ESTELA</text>
+  <!-- SUPERYACHT AGENCY -->
+  <text x="95" y="88" font-family="'Georgia', 'Times New Roman', serif" font-size="18" font-weight="400" fill="#7B1A2D" letter-spacing="10">SUPERYACHT AGENCY</text>
+</svg>

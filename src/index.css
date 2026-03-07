@@ -15,5 +15,21 @@
   --color-text: #1e293b;
   --color-text-light: #64748b;
 
+  --color-estela: #7B1A2D;
+  --color-estela-light: #9B2840;
+  --color-supasailing: #0ea5e9;
+
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@media print {
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  footer {
+    display: none !important;
+  }
 }

@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="32" fill="#1e3a5f"/>
-  <text x="96" y="128" font-family="system-ui, sans-serif" font-size="120" font-weight="700" fill="#ffffff" text-anchor="middle">E</text>
+  <rect width="192" height="192" rx="32" fill="#ffffff"/>
+  <!-- Estela sail symbol, centered -->
+  <g transform="translate(46,20) scale(1.18)">
+    <polygon points="20,115 42,10 48,10 32,115" fill="#7B1A2D"/>
+    <polygon points="32,115 50,25 57,18 46,115" fill="#7B1A2D"/>
+    <polygon points="46,115 59,40 67,30 60,115" fill="#7B1A2D"/>
+    <polygon points="60,115 68,56 77,44 74,115" fill="#7B1A2D"/>
+    <polygon points="74,115 78,72 88,58 88,115" fill="#7B1A2D"/>
+  </g>
 </svg>
