@@ -22,6 +22,7 @@ export function CourierHome() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
+          <img src="/estela-logo.png" alt="Estela" className="h-10 object-contain mb-2" />
           <h1 className="text-2xl font-bold text-text">
             Hello, {profile?.full_name?.split(' ')[0]}
           </h1>

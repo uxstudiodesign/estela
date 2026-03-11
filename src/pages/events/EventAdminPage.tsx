@@ -290,7 +290,7 @@ function AdminDashboard() {
   return (
     <div className="min-h-screen bg-surface">
       <header className="pt-8 pb-4 px-4 flex flex-col items-center gap-4">
-        <img src="/estela-logo.svg" alt="Estela" className="h-12 object-contain" />
+        <img src="/estela-logo.png" alt="Estela" className="h-12 object-contain" />
         <div className="flex items-center gap-3">
           <h1 className="text-xl font-semibold text-estela">Admin Dashboard</h1>
           <button

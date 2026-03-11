@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
-import { APP_NAME } from '@/config/constants'
 
 const navItems = [
   {
@@ -57,7 +56,7 @@ export function AdminSidebar() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <span className="font-bold">{APP_NAME}</span>
+        <img src="/estela-logo.png" alt="Estela" className="h-8 object-contain brightness-0 invert" />
         <div className="w-10" />
       </div>
 
@@ -78,7 +77,7 @@ export function AdminSidebar() {
       `.trim()}>
         <div className="flex flex-col h-full">
           <div className="p-4 border-b border-navy-light">
-            <h1 className="text-xl font-bold">{APP_NAME}</h1>
+            <img src="/estela-logo.png" alt="Estela" className="h-10 object-contain brightness-0 invert" />
             <p className="text-sm text-white/60 mt-1">Admin Dashboard</p>
           </div>
 

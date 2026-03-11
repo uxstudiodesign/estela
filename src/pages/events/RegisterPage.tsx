@@ -299,7 +299,7 @@ export function RegisterPage() {
     <div className="min-h-screen bg-surface">
       <header className="pt-8 pb-4 flex justify-center">
         <img
-          src="/estela-logo.svg"
+          src="/estela-logo.png"
           alt="Estela"
           className="h-16 object-contain"
         />

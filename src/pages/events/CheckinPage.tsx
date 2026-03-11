@@ -420,7 +420,7 @@ function CheckinDashboard() {
       <header className="bg-white border-b border-surface-dark px-4 py-3">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center gap-3">
           <img
-            src="/estela-logo.svg"
+            src="/estela-logo.png"
             alt="Estela"
             className="h-8 object-contain hidden sm:block"
           />

@@ -2,7 +2,6 @@ import { useState, type FormEvent, type MouseEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { loginSchema } from '@/lib/validators'
-import { APP_NAME } from '@/config/constants'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -49,7 +48,7 @@ export function LoginPage() {
     <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-navy mb-2">{APP_NAME}</h1>
+          <img src="/estela-logo.png" alt="Estela" className="h-16 object-contain mx-auto mb-4" />
           <p className="text-text-light">Proof of Delivery</p>
         </div>
 

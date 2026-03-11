@@ -72,7 +72,7 @@ export function PinGate({ children }: PinGateProps) {
     <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-sm text-center">
         <img
-          src="/estela-logo.svg"
+          src="/estela-logo.png"
           alt="Estela"
           className="h-12 object-contain mx-auto mb-6"
         />
