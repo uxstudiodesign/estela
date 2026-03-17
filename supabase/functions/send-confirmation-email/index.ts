@@ -87,23 +87,43 @@ function buildEmailHtml({ nome, cognome, events, qrToken }: RequestBody): string
                 📍 <strong>Astilleros de Mallorca</strong>, Palma de Mallorca, Spain
               </p>
 
-              <!-- CTA -->
+              <!-- QR Code -->
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="padding: 8px 0 24px;">
-                    <a href="${confirmationUrl}" style="display: inline-block; background-color: #7B1A2D; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 600;">
-                      View Your QR Code
-                    </a>
+                  <td align="center" style="padding: 8px 0 16px;">
+                    <p style="margin: 0 0 12px; color: #7B1A2D; font-size: 14px; font-weight: 600;">
+                      Your QR Code
+                    </p>
+                    <div style="display: inline-block; background-color: #ffffff; padding: 16px; border: 2px solid #f0f0f0; border-radius: 12px;">
+                      <img
+                        src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&ecc=M&data=${encodeURIComponent(qrToken)}"
+                        alt="QR Code"
+                        width="220"
+                        height="220"
+                        style="display: block;"
+                      />
+                    </div>
                   </td>
                 </tr>
               </table>
 
               <p style="margin: 0 0 4px; color: #444; font-size: 14px; line-height: 1.5; text-align: center;">
-                Present your QR code at the entrance for check-in.
+                <strong>Present this QR code at the entrance for check-in.</strong>
               </p>
-              <p style="margin: 0; color: #999; font-size: 13px; text-align: center;">
-                You can also save the QR code from the confirmation page.
+              <p style="margin: 0 0 16px; color: #999; font-size: 13px; text-align: center;">
+                Save this email or screenshot the QR code for quick access.
               </p>
+
+              <!-- CTA -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" style="padding: 0 0 8px;">
+                    <a href="${confirmationUrl}" style="display: inline-block; background-color: #7B1A2D; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600;">
+                      View Confirmation Page
+                    </a>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
