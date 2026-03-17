@@ -96,6 +96,14 @@ function CheckinDashboard() {
   // Action loading states
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({})
 
+  // Confirmation modal
+  const [confirmAction, setConfirmAction] = useState<{
+    readonly title: string
+    readonly message: string
+    readonly variant: 'success' | 'primary' | 'danger' | 'warning'
+    readonly onConfirm: () => void
+  } | null>(null)
+
   // QR Scanner modal
   const [scannerModalOpen, setScannerModalOpen] = useState(false)
   const [scannerActive, setScannerActive] = useState(false)
@@ -556,10 +564,30 @@ function CheckinDashboard() {
                           <ActionButtons
                             status={status}
                             loading={loading}
-                            onCheckin={() => handleCheckin(reg.id)}
-                            onCheckout={() => handleCheckout(reg.id)}
-                            onUndoCheckin={() => handleUndoCheckin(reg.id)}
-                            onUndoCheckout={() => handleUndoCheckout(reg.id)}
+                            onCheckin={() => setConfirmAction({
+                              title: 'Check-in',
+                              message: `Check in ${reg.nome} ${reg.cognome}?`,
+                              variant: 'success',
+                              onConfirm: () => { setConfirmAction(null); handleCheckin(reg.id) },
+                            })}
+                            onCheckout={() => setConfirmAction({
+                              title: 'Check-out',
+                              message: `Check out ${reg.nome} ${reg.cognome}?`,
+                              variant: 'primary',
+                              onConfirm: () => { setConfirmAction(null); handleCheckout(reg.id) },
+                            })}
+                            onUndoCheckin={() => setConfirmAction({
+                              title: 'Undo check-in',
+                              message: `Undo check-in for ${reg.nome} ${reg.cognome}? This will remove the check-in record.`,
+                              variant: 'danger',
+                              onConfirm: () => { setConfirmAction(null); handleUndoCheckin(reg.id) },
+                            })}
+                            onUndoCheckout={() => setConfirmAction({
+                              title: 'Undo check-out',
+                              message: `Undo check-out for ${reg.nome} ${reg.cognome}? Status will return to checked in.`,
+                              variant: 'warning',
+                              onConfirm: () => { setConfirmAction(null); handleUndoCheckout(reg.id) },
+                            })}
                           />
                         </td>
                       </tr>
@@ -579,6 +607,33 @@ function CheckinDashboard() {
           </a>
         </p>
       </footer>
+
+      {/* Confirmation Modal */}
+      <Modal
+        isOpen={confirmAction !== null}
+        onClose={() => setConfirmAction(null)}
+        title={confirmAction?.title ?? ''}
+      >
+        <div className="space-y-4">
+          <p className="text-sm text-text">{confirmAction?.message}</p>
+          <div className="flex gap-2 justify-end">
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => setConfirmAction(null)}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="sm"
+              variant={confirmAction?.variant === 'danger' || confirmAction?.variant === 'warning' ? 'danger' : confirmAction?.variant === 'success' ? 'success' : 'primary'}
+              onClick={confirmAction?.onConfirm}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+      </Modal>
 
       {/* QR Scanner Modal */}
       <Modal
