@@ -107,7 +107,12 @@ function CheckinDashboard() {
   // QR Scanner modal
   const [scannerModalOpen, setScannerModalOpen] = useState(false)
   const [scannerActive, setScannerActive] = useState(false)
-  const [scanResult, setScanResult] = useState<{ type: 'success' | 'already' | 'error'; name?: string } | null>(null)
+  const [scanResult, setScanResult] = useState<
+    | { type: 'error' }
+    | { type: 'guest'; reg: Registration; checkedInEvents: ReadonlyArray<string> }
+    | { type: 'checkin_done'; name: string; eventLabel: string }
+    | null
+  >(null)
   const scannerRef = useRef<unknown>(null)
 
   const currentEvent = EVENT_MAP[selectedEvent]
@@ -369,10 +374,10 @@ function CheckinDashboard() {
     setScannerActive(false)
 
     try {
-      // Look up registration
+      // Look up registration with all event fields
       const { data: reg, error: regError } = await supabase
         .from('registrations')
-        .select('id, nome, cognome')
+        .select('id, nome, cognome, email, telefono, azienda, ruolo, provenienza, colazione_29, colazione_30, colazione_01, sunset_29, sunset_30')
         .eq('qr_token', qrToken)
         .single()
 
@@ -381,38 +386,52 @@ function CheckinDashboard() {
         return
       }
 
-      const name = `${(reg as { nome: string }).nome} ${(reg as { cognome: string }).cognome}`
-
-      // Check existing checkin
-      const { count } = await supabase
+      // Fetch all existing check-ins for this person
+      const { data: existingCheckins } = await supabase
         .from('checkins')
-        .select('*', { count: 'exact', head: true })
-        .eq('registration_id', (reg as { id: string }).id)
-        .eq('event_type', currentEvent.type)
-        .eq('event_day', currentEvent.day)
+        .select('event_type, event_day')
+        .eq('registration_id', (reg as Registration).id)
 
-      if (count && count > 0) {
-        setScanResult({ type: 'already', name })
-        return
-      }
+      const checkedInEvents = (existingCheckins ?? []).map(
+        (c: { event_type: string; event_day: string }) => {
+          const entry = Object.entries(EVENT_MAP).find(
+            ([, v]) => v.type === c.event_type && v.day === c.event_day,
+          )
+          return entry ? entry[0] : ''
+        },
+      ).filter(Boolean)
 
-      // Insert checkin
-      const { error: insertError } = await supabase
+      setScanResult({ type: 'guest', reg: reg as Registration, checkedInEvents })
+    } catch {
+      setScanResult({ type: 'error' })
+    }
+  }
+
+  async function handleScanCheckin(reg: Registration, eventKey: string) {
+    const ev = EVENT_MAP[eventKey]
+    if (!ev) return
+
+    try {
+      const { error } = await supabase
         .from('checkins')
         .insert({
-          registration_id: (reg as { id: string }).id,
-          event_type: currentEvent.type,
-          event_day: currentEvent.day,
+          registration_id: reg.id,
+          event_type: ev.type,
+          event_day: ev.day,
         })
 
-      if (insertError) throw new Error(insertError.message)
+      if (error) throw new Error(error.message)
 
-      setCheckinMap((prev) => ({
-        ...prev,
-        [(reg as { id: string }).id]: { checked_out_at: null },
-      }))
+      // Update local state if it's the currently selected event
+      if (eventKey === selectedEvent) {
+        setCheckinMap((prev) => ({
+          ...prev,
+          [reg.id]: { checked_out_at: null },
+        }))
+      }
 
-      setScanResult({ type: 'success', name })
+      const eventOption = EVENT_OPTIONS.find((o) => o.value === eventKey)
+      setScanResult({ type: 'checkin_done', name: `${reg.nome} ${reg.cognome}`, eventLabel: eventOption?.label ?? eventKey })
     } catch {
       setScanResult({ type: 'error' })
     }
@@ -654,29 +673,77 @@ function CheckinDashboard() {
           </div>
         )}
 
-        {scanResult?.type === 'success' && (
+        {scanResult?.type === 'guest' && (
+          <div className="space-y-4">
+            {/* Guest info */}
+            <div className="text-center">
+              <p className="text-lg font-semibold text-text">{scanResult.reg.nome} {scanResult.reg.cognome}</p>
+              {scanResult.reg.azienda && (
+                <p className="text-sm text-text-light">{scanResult.reg.azienda}</p>
+              )}
+            </div>
+
+            {/* Events list with check-in buttons */}
+            <div className="space-y-2">
+              <p className="text-xs font-semibold text-text-light uppercase tracking-wide">Registered Events</p>
+              {EVENT_OPTIONS.map(({ value, label }) => {
+                if (!scanResult.reg[value as keyof Registration]) return null
+                const isCheckedIn = scanResult.checkedInEvents.includes(value)
+                return (
+                  <div
+                    key={value}
+                    className={`flex items-center justify-between rounded-lg px-3 py-2.5 border ${
+                      isCheckedIn ? 'border-success/30 bg-success/5' : 'border-surface-dark bg-surface'
+                    }`}
+                  >
+                    <div>
+                      <p className="text-sm font-medium text-text">{label}</p>
+                      <p className="text-xs text-text-light">
+                        {value.startsWith('colazione') ? '08:00–10:30' : '17:00–19:00'}
+                      </p>
+                    </div>
+                    {isCheckedIn ? (
+                      <span className="text-xs font-medium text-success flex items-center gap-1">
+                        <span>&#10003;</span> Checked in
+                      </span>
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="success"
+                        onClick={() => handleScanCheckin(scanResult.reg, value)}
+                      >
+                        Check-in
+                      </Button>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="flex justify-center pt-2">
+              <Button variant="secondary" size="sm" onClick={closeScannerModal}>
+                Close
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {scanResult?.type === 'checkin_done' && (
           <div className="flex flex-col items-center text-center py-6 space-y-3">
             <div className="w-16 h-16 rounded-full bg-success/10 flex items-center justify-center">
               <span className="text-3xl text-success">&#10003;</span>
             </div>
             <p className="text-lg font-semibold text-success">Check-in successful</p>
-            {scanResult.name && <p className="text-sm text-text-light">{scanResult.name}</p>}
-            <Button variant="secondary" size="sm" onClick={closeScannerModal}>
-              Close
-            </Button>
-          </div>
-        )}
-
-        {scanResult?.type === 'already' && (
-          <div className="flex flex-col items-center text-center py-6 space-y-3">
-            <div className="w-16 h-16 rounded-full bg-warning/10 flex items-center justify-center">
-              <span className="text-3xl text-warning">!</span>
+            <p className="text-sm text-text-light">{scanResult.name}</p>
+            <p className="text-xs text-text-light">{scanResult.eventLabel}</p>
+            <div className="flex gap-2">
+              <Button variant="secondary" size="sm" onClick={closeScannerModal}>
+                Close
+              </Button>
+              <Button size="sm" onClick={() => setScannerModalOpen(true)}>
+                Scan Another
+              </Button>
             </div>
-            <p className="text-lg font-semibold text-warning">Already checked in</p>
-            {scanResult.name && <p className="text-sm text-text-light">{scanResult.name}</p>}
-            <Button variant="secondary" size="sm" onClick={closeScannerModal}>
-              Close
-            </Button>
           </div>
         )}
 
@@ -686,9 +753,14 @@ function CheckinDashboard() {
               <span className="text-3xl text-danger">&times;</span>
             </div>
             <p className="text-lg font-semibold text-danger">QR code not recognised</p>
-            <Button variant="secondary" size="sm" onClick={closeScannerModal}>
-              Close
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="secondary" size="sm" onClick={closeScannerModal}>
+                Close
+              </Button>
+              <Button size="sm" onClick={() => { setScanResult(null); setScannerModalOpen(true) }}>
+                Try Again
+              </Button>
+            </div>
           </div>
         )}
       </Modal>
