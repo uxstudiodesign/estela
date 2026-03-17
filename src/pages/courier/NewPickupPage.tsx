@@ -9,7 +9,6 @@ import { BarcodeScanner } from '@/components/shared/BarcodeScanner'
 import { PhotoCapture } from '@/components/shared/PhotoCapture'
 import { Button } from '@/components/ui/Button'
 import { Select } from '@/components/ui/Select'
-import { Input } from '@/components/ui/Input'
 import { CARRIERS } from '@/config/constants'
 
 type Step = 'scan' | 'photo' | 'details' | 'confirm' | 'success'

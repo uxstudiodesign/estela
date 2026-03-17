@@ -315,7 +315,10 @@ function CheckinDashboard() {
         const el = document.getElementById(QR_SCANNER_ID)
         if (!el) return
 
-        const scanner = new Html5Qrcode(QR_SCANNER_ID)
+        const scanner = new Html5Qrcode(QR_SCANNER_ID, {
+            formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+            verbose: false,
+          })
         scannerRef.current = scanner
 
         await scanner.start(
@@ -323,7 +326,6 @@ function CheckinDashboard() {
           {
             fps: 10,
             qrbox: { width: 250, height: 250 },
-            formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
           },
           (decodedText) => {
             scanner.stop().catch(() => {})

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { supabase } from '@/config/supabase'
-import type { Parcel } from '@/types/database'
+import type { Parcel, ParcelStatus } from '@/types/database'
 import { PARCELS_RECENT_HOURS } from '@/config/constants'
 
 export interface ParcelFilters {
@@ -89,7 +89,7 @@ export function useParcels() {
         .order('created_at', { ascending: false })
 
       if (filters?.status && filters.status !== 'all') {
-        query = query.eq('status', filters.status)
+        query = query.eq('status', filters.status as ParcelStatus)
       }
 
       if (filters?.boat_id) {

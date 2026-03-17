@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState, useCallback, type React
 import { supabase, isSupabaseConfigured } from '@/config/supabase'
 import type { AuthState, AuthContextValue } from '@/types/auth'
 import type { Courier } from '@/types/database'
-import type { User, Session } from '@supabase/supabase-js'
+import type { Session } from '@supabase/supabase-js'
 
 const initialState: AuthState = {
   user: null,

@@ -7,7 +7,6 @@ import { Modal } from '@/components/ui/Modal'
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner'
 import { EmptyState } from '@/components/shared/EmptyState'
 import { courierSchema, type CourierFormData } from '@/lib/validators'
-import type { CourierRole } from '@/types/database'
 
 export function CouriersPage() {
   const { couriers, isLoading, fetchCouriers, createCourier, toggleCourierActive } = useCouriers()
@@ -36,7 +35,7 @@ export function CouriersPage() {
     const validation = courierSchema.safeParse(formData)
     if (!validation.success) {
       const errors: Record<string, string> = {}
-      validation.error.errors.forEach((e) => {
+      validation.error.issues.forEach((e) => {
         if (e.path[0]) errors[e.path[0] as string] = e.message
       })
       setFormErrors(errors)

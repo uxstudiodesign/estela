@@ -33,15 +33,7 @@ export function BarcodeScanner({ onScan, onError, isActive }: BarcodeScannerProp
           return
         }
 
-        const scanner = new Html5Qrcode(SCANNER_ID)
-        scannerRef.current = scanner
-
-        await scanner.start(
-          { facingMode: 'environment' },
-          {
-            fps: 10,
-            qrbox: { width: 300, height: 150 },
-            aspectRatio: 1.777,
+        const scanner = new Html5Qrcode(SCANNER_ID, {
             formatsToSupport: [
               Html5QrcodeSupportedFormats.CODE_128,
               Html5QrcodeSupportedFormats.CODE_39,
@@ -51,6 +43,16 @@ export function BarcodeScanner({ onScan, onError, isActive }: BarcodeScannerProp
               Html5QrcodeSupportedFormats.QR_CODE,
               Html5QrcodeSupportedFormats.DATA_MATRIX,
             ],
+            verbose: false,
+          })
+        scannerRef.current = scanner
+
+        await scanner.start(
+          { facingMode: 'environment' },
+          {
+            fps: 10,
+            qrbox: { width: 300, height: 150 },
+            aspectRatio: 1.777,
           },
           (decodedText) => {
             onScan(decodedText)

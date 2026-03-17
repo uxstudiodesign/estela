@@ -50,7 +50,7 @@ export function BoatsPage() {
     const validation = boatSchema.safeParse(formData)
     if (!validation.success) {
       const errors: Record<string, string> = {}
-      validation.error.errors.forEach((e) => {
+      validation.error.issues.forEach((e) => {
         if (e.path[0]) errors[e.path[0] as string] = e.message
       })
       setFormErrors(errors)

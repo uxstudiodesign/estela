@@ -94,7 +94,7 @@ export function CourierHome() {
               <ParcelCard
                 key={parcel.id}
                 parcel={parcel}
-                boatName={(parcel as Record<string, unknown>).boats ? ((parcel as Record<string, unknown>).boats as { name: string }).name : undefined}
+                boatName={(parcel as unknown as { boats?: { name: string } | null }).boats?.name}
               />
             ))}
           </div>

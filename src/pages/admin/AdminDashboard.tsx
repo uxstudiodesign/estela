@@ -12,7 +12,7 @@ import type { ParcelStatus } from '@/types/database'
 export function AdminDashboard() {
   const navigate = useNavigate()
   const { parcels, isLoading, fetchAllParcels, getParcelStats } = useParcels()
-  const { boats, fetchBoats } = useBoats()
+  const { fetchBoats } = useBoats()
 
   const [stats, setStats] = useState({ totalParcels: 0, inTransit: 0, delivered: 0 })
   const [filters, setFilters] = useState<ParcelFilters>({
@@ -127,9 +127,7 @@ export function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-surface-dark">
                 {parcels.map((parcel) => {
-                  const boatName = (parcel as Record<string, unknown>).boats
-                    ? ((parcel as Record<string, unknown>).boats as { name: string }).name
-                    : '—'
+                  const boatName = (parcel as unknown as { boats?: { name: string } | null }).boats?.name ?? '—'
                   return (
                     <tr
                       key={parcel.id}
@@ -160,9 +158,7 @@ export function AdminDashboard() {
           {/* Mobile Card List */}
           <div className="lg:hidden space-y-2">
             {parcels.map((parcel) => {
-              const boatName = (parcel as Record<string, unknown>).boats
-                ? ((parcel as Record<string, unknown>).boats as { name: string }).name
-                : undefined
+              const boatName = (parcel as unknown as { boats?: { name: string } | null }).boats?.name
               return (
                 <button
                   key={parcel.id}

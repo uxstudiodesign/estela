@@ -393,7 +393,7 @@ export function RegisterPage() {
                 Events <span className="text-danger">*</span>
               </legend>
               <div className="space-y-2">
-                {EVENT_FIELDS.map(({ key, name, date, time, infoType, tag }) => {
+                {EVENT_FIELDS.map(({ key, name, date, time, tag }) => {
                   const checked = formData[key]
                   return (
                     <div
