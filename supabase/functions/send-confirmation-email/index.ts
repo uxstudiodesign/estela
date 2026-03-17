@@ -1,7 +1,7 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
-const FROM_EMAIL = 'francesco.gennai@estelashipping.net'
+const FROM_EMAIL = 'noreply@supasailing.com'
 
 const EVENT_LABELS: Record<string, { label: string; date: string; time: string }> = {
   colazione_29: { label: 'Breakfast Seminar — Safety', date: '29 April 2026', time: '08:00 – 10:30' },
@@ -164,7 +164,7 @@ serve(async (req: Request) => {
     if (!resendResponse.ok) {
       console.error('Resend error:', resendData)
       return new Response(
-        JSON.stringify({ error: 'Failed to send email' }),
+        JSON.stringify({ error: 'Failed to send email', details: resendData }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       )
     }
