@@ -39,6 +39,29 @@ const BREAKFAST_TOPICS = [
   { date: '1 May', topic: 'Sustainability', title: 'From Engines to Ecosystems: The Future of Sustainable Superyachts' },
 ] as const
 
+const SPECIAL_PRESENTATIONS: Record<string, ReadonlyArray<{ readonly name: string; readonly charity?: boolean }>> = {
+  colazione_29: [
+    { name: 'Lanzarote Superyacht Destination' },
+    { name: 'Multiplex' },
+  ],
+  colazione_30: [
+    { name: 'Sevenstar Yacht Transport' },
+    { name: 'AYSS' },
+  ],
+  colazione_01: [
+    { name: 'Tanja Marina Bay' },
+    { name: 'Vulkan' },
+  ],
+  sunset_29: [
+    { name: 'Multiplex' },
+  ],
+  sunset_30: [
+    { name: 'InvestHK' },
+    { name: 'Lanzarote Superyacht Destination' },
+    { name: 'Tropicfeel', charity: true },
+  ],
+}
+
 const EVENT_INFO: Record<EventInfoType, {
   readonly title: string
   readonly time: string
@@ -432,6 +455,18 @@ export function RegisterPage() {
                             </svg>
                             {time}
                           </span>
+                          {SPECIAL_PRESENTATIONS[key] && (
+                            <p className="text-[11px] text-text-light mt-1 leading-snug">
+                              <span className="font-semibold text-estela">Special Presentations: </span>
+                              {SPECIAL_PRESENTATIONS[key].map((p, i) => (
+                                <span key={p.name}>
+                                  {p.name}
+                                  {p.charity && ' (Charity)'}
+                                  {i < SPECIAL_PRESENTATIONS[key].length - 1 ? ' · ' : ''}
+                                </span>
+                              ))}
+                            </p>
+                          )}
                         </div>
                         <button
                           type="button"
@@ -741,6 +776,29 @@ function EventInfoModal({
             </div>
           )
         })()}
+
+        {SPECIAL_PRESENTATIONS[eventKey] && (
+          <div>
+            <h3 className="font-semibold mb-2">
+              Special <span className="text-estela">Presentations</span>
+            </h3>
+            <ul className="space-y-1.5">
+              {SPECIAL_PRESENTATIONS[eventKey].map((p) => (
+                <li
+                  key={p.name}
+                  className="rounded-lg bg-surface px-3 py-2 text-sm text-text leading-snug"
+                >
+                  <span className="font-medium">{p.name}</span>
+                  {p.charity && (
+                    <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-estela/10 text-estela">
+                      Charity
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <div>
           <h3 className="font-semibold mb-1">Ideal For</h3>
