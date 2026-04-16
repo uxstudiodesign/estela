@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
 
-const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
+const EMAILIT_API_KEY = Deno.env.get('EMAILIT_API_KEY')!
 const FROM_EMAIL = 'noreply@supasailing.com'
 
 const EVENT_LABELS: Record<string, { label: string; date: string; time: string }> = {
@@ -133,8 +133,11 @@ function buildEmailHtml({ nome, cognome, events, qrToken }: RequestBody): string
               <p style="margin: 0 0 4px; color: #999; font-size: 12px;">
                 Estela Shipping S.A. · Palma de Mallorca
               </p>
-              <p style="margin: 0; color: #bbb; font-size: 11px;">
+              <p style="margin: 0 0 6px; color: #bbb; font-size: 11px;">
                 This is an automated confirmation. Please do not reply to this email.
+              </p>
+              <p style="margin: 0; color: #bbb; font-size: 10px;">
+                Powered by <a href="https://supasailing.com" style="color: #bbb; text-decoration: underline;">supasailing.com</a>
               </p>
             </td>
           </tr>
@@ -165,32 +168,32 @@ serve(async (req: Request) => {
 
     const html = buildEmailHtml(body)
 
-    const resendResponse = await fetch('https://api.resend.com/emails', {
+    const emailitResponse = await fetch('https://api.emailit.com/v2/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Authorization': `Bearer ${EMAILIT_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         from: `Estela Palma Week <${FROM_EMAIL}>`,
-        to: [email],
+        to: email,
         subject: 'Your Estela Palma Week 2026 Registration is Confirmed',
         html,
       }),
     })
 
-    const resendData = await resendResponse.json()
+    const emailitData = await emailitResponse.json()
 
-    if (!resendResponse.ok) {
-      console.error('Resend error:', resendData)
+    if (!emailitResponse.ok) {
+      console.error('Emailit error:', emailitData)
       return new Response(
-        JSON.stringify({ error: 'Failed to send email', details: resendData }),
+        JSON.stringify({ error: 'Failed to send email', details: emailitData }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       )
     }
 
     return new Response(
-      JSON.stringify({ success: true, id: resendData.id }),
+      JSON.stringify({ success: true, id: emailitData.id }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     )
   } catch (err) {
