@@ -455,18 +455,6 @@ export function RegisterPage() {
                             </svg>
                             {time}
                           </span>
-                          {SPECIAL_PRESENTATIONS[key] && (
-                            <p className="text-[11px] text-text-light mt-1 leading-snug">
-                              <span className="font-semibold text-estela">Special Presentations: </span>
-                              {SPECIAL_PRESENTATIONS[key].map((p, i) => (
-                                <span key={p.name}>
-                                  {p.name}
-                                  {p.charity && ' (Charity)'}
-                                  {i < SPECIAL_PRESENTATIONS[key].length - 1 ? ' · ' : ''}
-                                </span>
-                              ))}
-                            </p>
-                          )}
                         </div>
                         <button
                           type="button"
@@ -782,21 +770,19 @@ function EventInfoModal({
             <h3 className="font-semibold mb-2">
               Special <span className="text-estela">Presentations</span>
             </h3>
-            <ul className="space-y-1.5">
-              {SPECIAL_PRESENTATIONS[eventKey].map((p) => (
-                <li
-                  key={p.name}
-                  className="rounded-lg bg-surface px-3 py-2 text-sm text-text leading-snug"
-                >
-                  <span className="font-medium">{p.name}</span>
+            <p className="text-sm text-text-light leading-snug">
+              {SPECIAL_PRESENTATIONS[eventKey].map((p, i, arr) => (
+                <span key={p.name}>
+                  <span className="text-text">{p.name}</span>
                   {p.charity && (
-                    <span className="ml-2 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-estela/10 text-estela">
+                    <span className="ml-1.5 text-[10px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full bg-estela/10 text-estela align-middle">
                       Charity
                     </span>
                   )}
-                </li>
+                  {i < arr.length - 1 && <span className="text-text-light"> · </span>}
+                </span>
               ))}
-            </ul>
+            </p>
           </div>
         )}
 
