@@ -42,5 +42,5 @@ run = ["npx", "serve", "-s", "dist", "-l", "5000"]
 [userenv]
 
 [userenv.shared]
-VITE_SUPABASE_URL = "https://onwvgxarqxbkwjlcqsuw.supabase.co"
-VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ud3ZneGFycXhia3dqbGNxc3V3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NDk2NjMsImV4cCI6MjA4NjIyNTY2M30.USt1ENc0G24Mz07SO9bos6xvVYvkwQVg2TMgHJLvyt0"
+VITE_SUPABASE_URL = "https://diayywpsrfoykeyvpimu.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRpYXl5d3BzcmZveWtleXZwaW11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMjYxMDcsImV4cCI6MjA5MTkwMjEwN30.k8-mIfK1-RxTrHcWw3cMzM7smSSS-uJKnV76cPo37xA"
